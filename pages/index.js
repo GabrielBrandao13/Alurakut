@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { MainGrid, DivArea } from '../src/components/MainGrid';
 import { Box } from '../src/components/Box';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
-import { useState } from 'react'
+import { ProfilePicture } from '../src/components/ProfilePicture';
+
 
 function ProfileSideBar({ githubUser }) {
   return (
@@ -112,13 +114,12 @@ export default function Home() {
 
               {comunidades.map(comunidade => {
                 return (
-                  <li key={comunidade.id}>
-                    <a href={`https://github.com/${comunidade.title}`}>
-                      <img src={comunidade.image} />
-                      <span>{comunidade.title}</span>
-                    </a>
-
-                  </li>
+                  <ProfilePicture
+                    key={comunidade.id}
+                    link="https://github.com"
+                    title={comunidade.title}
+                    image={comunidade.image}
+                  />
                 )
               })}
             </ul>
@@ -133,13 +134,12 @@ export default function Home() {
 
               {parsedPessoasFavoritas.map(pessoa => {
                 return (
-                  <li key={pessoa}>
-                    <a href={`https://github.com/${pessoa}`}>
-                      <img src={`https://github.com/${pessoa}.png`} />
-                      <span>{pessoa}</span>
-                    </a>
-
-                  </li>
+                  <ProfilePicture
+                    key={pessoa}
+                    link="https://github.com"
+                    title={pessoa}
+                    image={`https://github.com/${pessoa}.png`}
+                  />
                 )
               })}
             </ul>
