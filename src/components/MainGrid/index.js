@@ -4,10 +4,8 @@ export const MainGrid = styled.main`
   width: 100%;
   grid-gap: 10px;
   
-  margin: {
-    left:auto;
-    right:auto;
-  };
+  margin-left: auto;
+  margin-right: auto;
   
   padding: 16px;
   max-width: 500px;
