@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { MainGrid, DivArea } from '../src/components/MainGrid';
 import { Box } from '../src/components/Box';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
-import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
-
-import { ProfilePicture } from '../src/components/ProfilePicture';
+import { ProfileRelationsBoxWrapper, ProfilePicture } from '../src/components/ProfileRelations';
 
 
 function ProfileSideBar({ githubUser }) {
@@ -32,6 +30,7 @@ export default function Home() {
   const usuario = 'GabrielBrandao13';
 
   const [comunidades, setComunidades] = useState([])
+  const parsedComunidades = comunidades.slice(0, 6)
 
   const pessoasFavoritas = [
     'juunegreiros',
@@ -112,11 +111,11 @@ export default function Home() {
 
             <ul>
 
-              {comunidades.map(comunidade => {
+              {parsedComunidades.map(comunidade => {
                 return (
                   <ProfilePicture
                     key={comunidade.id}
-                    link="https://github.com"
+                    link=""
                     title={comunidade.title}
                     image={comunidade.image}
                   />
@@ -136,7 +135,7 @@ export default function Home() {
                 return (
                   <ProfilePicture
                     key={pessoa}
-                    link="https://github.com"
+                    link={`https://github.com/${pessoa}`}
                     title={pessoa}
                     image={`https://github.com/${pessoa}.png`}
                   />
