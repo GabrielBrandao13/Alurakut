@@ -1,15 +1,18 @@
 import styled from 'styled-components';
 
 export const Box = styled.div`
-  background: #ffffff;
+  border: .5px solid rgba(0, 0, 0, .5);
   border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, .3);
+
+  color: #f8f8f8;
 
   padding: 16px;
 
   margin-bottom: 10px;
   .boxLink {
     font-size: 14px;
-    color: #2E7BB4;
+    color: #2b14db;
     text-decoration: none;
     font-weight: 800;
   }
@@ -27,7 +30,7 @@ export const Box = styled.div`
     margin-bottom: 20px;
     font-size: 16px;
     font-weight: 700;
-    color: #333333;
+    /* color: #333333; */
     margin-bottom: 20px;
   }
   hr {
@@ -54,6 +57,7 @@ export const Box = styled.div`
     padding: 8px 12px;
     color: #FFFFFF;
     border-radius: 10000px;
-    background-color: #6F92BB;
+    background-color: #2c2278;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
   }
 `

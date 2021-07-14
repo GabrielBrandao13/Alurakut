@@ -7,54 +7,54 @@ const v = '1';
 
 
 function Link({ href, children, ...props }) {
-    return (
-        <NextLink href={href} passHref>
-            <a {...props}>
-                {children}
-            </a>
-        </NextLink>
-    )
+  return (
+    <NextLink href={href} passHref>
+      <a {...props}>
+        {children}
+      </a>
+    </NextLink>
+  )
 }
 
 // ================================================================================================================
 // Menu
 // ================================================================================================================
 export function AlurakutMenu({ githubUser }) {
-    const [isMenuOpen, setMenuState] = React.useState(false);
-    return (
-        <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
-            <div className="container">
-                <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
+  const [isMenuOpen, setMenuState] = React.useState(false);
+  return (
+    <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
+      <div className="container">
+        <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
 
-                <nav style={{ flex: 1 }}>
-                    {[{ name: 'Inicio', slug: '/' }, { name: 'Amigos', slug: '/amigos' }, { name: 'Comunidades', slug: '/comunidades' }].map((menuItem) => (
-                        <Link key={`key__${menuItem.name.toLocaleLowerCase()}`} href={`${menuItem.slug.toLocaleLowerCase()}`}>
-                            {menuItem.name}
-                        </Link>
-                    ))}
-                </nav>
+        <nav style={{ flex: 1 }}>
+          {[{ name: 'Inicio', slug: '/' }, { name: 'Amigos', slug: '/amigos' }, { name: 'Comunidades', slug: '/comunidades' }].map((menuItem) => (
+            <Link key={`key__${menuItem.name.toLocaleLowerCase()}`} href={`${menuItem.slug.toLocaleLowerCase()}`}>
+              {menuItem.name}
+            </Link>
+          ))}
+        </nav>
 
-                <nav>
-                    <a href={`/logout`}>
-                        Sair
-                    </a>
-                    <div>
-                        <input placeholder="Pesquisar no Orkut" />
-                    </div>
-                </nav>
+        <nav>
+          <a href={`/logout`}>
+            Sair
+          </a>
+          <div>
+            <input placeholder="Pesquisar no Orkut" />
+          </div>
+        </nav>
 
-                <button onClick={() => setMenuState(!isMenuOpen)}>
-                    {isMenuOpen && <img src={`${BASE_URL}/icons/menu-open.svg?v=${v}`} />}
-                    {!isMenuOpen && <img src={`${BASE_URL}/icons/menu-closed.svg?v=${v}`} />}
-                </button>
-            </div>
-            <AlurakutMenuProfileSidebar githubUser={githubUser} />
-        </AlurakutMenu.Wrapper>
-    )
+        <button onClick={() => setMenuState(!isMenuOpen)}>
+          {isMenuOpen && <img src={`${BASE_URL}/icons/menu-open.svg?v=${v}`} />}
+          {!isMenuOpen && <img src={`${BASE_URL}/icons/menu-closed.svg?v=${v}`} />}
+        </button>
+      </div>
+      <AlurakutMenuProfileSidebar githubUser={githubUser} />
+    </AlurakutMenu.Wrapper>
+  )
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
+  background-color: #e80932;
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -93,7 +93,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
   }
   .container {
-    background-color: #308BC5;
+    background-color: #e80932;
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -126,7 +126,7 @@ AlurakutMenu.Wrapper = styled.header`
         text-decoration: none;
         &:after {
           content: " ";
-          background-color: #5292C1;
+          background-color: #000;
           display: block;
           position: absolute;
           width: 1px;
@@ -140,7 +140,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
     input {
       color: #ffffff;
-      background: #5579A1;
+      background: #bd1735;
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
@@ -163,66 +163,66 @@ AlurakutMenu.Logo = styled.img`
 `;
 
 function AlurakutMenuProfileSidebar({ githubUser }) {
-    return (
-        <div className="alurakutMenuProfileSidebar">
-            <div>
-                <img src={`https://github.com/${githubUser}.png`} style={{ borderRadius: '8px' }} />
-                <hr />
-                <p>
-                    <a className="boxLink" href={`/user/${githubUser}`}>
-                        @{githubUser}
-                    </a>
-                </p>
-                <hr />
+  return (
+    <div className="alurakutMenuProfileSidebar">
+      <div>
+        <img src={`https://github.com/${githubUser}.png`} style={{ borderRadius: '8px' }} />
+        <hr />
+        <p>
+          <a className="boxLink" href={`/user/${githubUser}`}>
+            @{githubUser}
+          </a>
+        </p>
+        <hr />
 
-                <AlurakutProfileSidebarMenuDefault />
-            </div>
-        </div>
-    )
+        <AlurakutProfileSidebarMenuDefault />
+      </div>
+    </div>
+  )
 }
 
 // ================================================================================================================
 // AlurakutProfileSidebarMenuDefault
 // ================================================================================================================
 export function AlurakutProfileSidebarMenuDefault() {
-    return (
-        <AlurakutProfileSidebarMenuDefault.Wrapper>
-            <nav>
-                <a href="/">
-                    <img src={`${BASE_URL}/icons/user.svg`} />
-                    Perfil
-                </a>
-                <a href="/">
-                    <img src={`${BASE_URL}/icons/book.svg`} />
-                    Recados
-                </a>
-                <a href="/">
-                    <img src={`${BASE_URL}/icons/camera.svg`} />
-                    Fotos
-                </a>
-                <a href="/">
-                    <img src={`${BASE_URL}/icons/sun.svg`} />
-                    Depoimentos
-                </a>
-            </nav>
-            <hr />
-            <nav>
-                <a href="/">
-                    <img src={`${BASE_URL}/icons/plus.svg`} />
-                    GitHub Trends
-                </a>
-                <a href="/logout">
-                    <img src={`${BASE_URL}//icons/logout.svg`} />
-                    Sair
-                </a>
-            </nav>
-        </AlurakutProfileSidebarMenuDefault.Wrapper>
-    )
+  return (
+    <AlurakutProfileSidebarMenuDefault.Wrapper>
+      <nav>
+        <a href="/">
+          <img src={`${BASE_URL}/icons/user.svg`} />
+          Perfil
+        </a>
+        <a href="/">
+          <img src={`${BASE_URL}/icons/book.svg`} />
+          Recados
+        </a>
+        <a href="/">
+          <img src={`${BASE_URL}/icons/camera.svg`} />
+          Fotos
+        </a>
+        <a href="/">
+          <img src={`${BASE_URL}/icons/sun.svg`} />
+          Depoimentos
+        </a>
+      </nav>
+      <hr />
+      <nav>
+        <a href="/">
+          <img src={`${BASE_URL}/icons/plus.svg`} />
+          GitHub Trends
+        </a>
+        <a href="/logout">
+          <img src={`${BASE_URL}//icons/logout.svg`} />
+          Sair
+        </a>
+      </nav>
+    </AlurakutProfileSidebarMenuDefault.Wrapper>
+  )
 }
 AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
   a {
     font-size: 12px;
-    color: #2E7BB4;
+    color: #4631e8;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -240,47 +240,47 @@ AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
 // OrkutNostalgicIconSet
 // ================================================================================================================
 export function OrkutNostalgicIconSet(props) {
-    return (
-        <OrkutNostalgicIconSet.List>
-            {[
-                { name: 'Recados', slug: 'recados', icon: 'book' },
-                { name: 'Fotos', slug: 'fotos', icon: 'camera' },
-                { name: 'Videos', slug: 'videos', icon: 'video-camera' },
-                { name: 'Fãs', slug: 'fas', icon: 'star' },
-                { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
-            ].map(({ name, slug, icon }) => (
-                <li key={`orkut__icon_set__${slug}`}>
-                    <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
-                        {name}
-                    </span>
-                    <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
-                        <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
-                        {props[slug] ? props[slug] : 0}
-                    </span>
-                </li>
-            ))}
-            {[
-                { name: 'Confiável', slug: 'confiavel', icon: 'smile' },
-                { name: 'Legal', slug: 'legal', icon: 'cool' },
-                { name: 'Sexy', slug: 'sexy', icon: 'heart' },
-            ].map(({ name, slug, icon }) => {
-                const total = props[slug] ? props[slug] : 2;
-                return (
-                    <li key={`orkut__icon_set__${slug}`}>
-                        <span className="OrkutNostalgicIconSet__title">
-                            {name}
-                        </span>
-                        <span className="OrkutNostalgicIconSet__iconComplex" className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
-                            {[0, 1, 2].map((_, index) => {
-                                const isHeartActive = index <= (total - 1);
-                                return <img key={`orkut__icon_set__${slug}_img_${index}`} src={`https://alurakut.vercel.app/icons/${icon}.svg`} style={{ marginRight: '2px', opacity: isHeartActive ? 1 : '0.5' }} />
-                            })}
-                        </span>
-                    </li>
-                );
-            })}
-        </OrkutNostalgicIconSet.List>
-    )
+  return (
+    <OrkutNostalgicIconSet.List>
+      {[
+        { name: 'Recados', slug: 'recados', icon: 'book' },
+        { name: 'Fotos', slug: 'fotos', icon: 'camera' },
+        { name: 'Videos', slug: 'videos', icon: 'video-camera' },
+        { name: 'Fãs', slug: 'fas', icon: 'star' },
+        { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
+      ].map(({ name, slug, icon }) => (
+        <li key={`orkut__icon_set__${slug}`}>
+          <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
+            {name}
+          </span>
+          <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
+            <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
+            {props[slug] ? props[slug] : 0}
+          </span>
+        </li>
+      ))}
+      {[
+        { name: 'Confiável', slug: 'confiavel', icon: 'smile' },
+        { name: 'Legal', slug: 'legal', icon: 'cool' },
+        { name: 'Sexy', slug: 'sexy', icon: 'heart' },
+      ].map(({ name, slug, icon }) => {
+        const total = props[slug] ? props[slug] : 2;
+        return (
+          <li key={`orkut__icon_set__${slug}`}>
+            <span className="OrkutNostalgicIconSet__title">
+              {name}
+            </span>
+            <span className="OrkutNostalgicIconSet__iconComplex" className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
+              {[0, 1, 2].map((_, index) => {
+                const isHeartActive = index <= (total - 1);
+                return <img key={`orkut__icon_set__${slug}_img_${index}`} src={`https://alurakut.vercel.app/icons/${icon}.svg`} style={{ marginRight: '2px', opacity: isHeartActive ? 1 : '0.5' }} />
+              })}
+            </span>
+          </li>
+        );
+      })}
+    </OrkutNostalgicIconSet.List>
+  )
 }
 OrkutNostalgicIconSet.List = styled.ul`
   margin-top: 32px;
