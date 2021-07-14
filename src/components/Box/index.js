@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 export const Box = styled.div`
-  border: .5px solid rgba(0, 0, 0, .5);
+  border: .5px solid #342485;
   border-radius: 8px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, .3);
+  background-color:#1c1c26;
 
   color: #f8f8f8;
 

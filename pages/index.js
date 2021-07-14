@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MainGrid, DivArea } from '../src/components/MainGrid';
 import { Box } from '../src/components/Box';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
@@ -26,11 +26,42 @@ function ProfileSideBar({ githubUser }) {
   )
 }
 
-export default function Home() {
+function ProfileRelationsBox({ title, items, parsedItems }) {
+  return (
+    <ProfileRelationsBoxWrapper>
+
+      <h2>{title} ({items.length})</h2>
+
+      <ul>
+        {parsedItems.map(item => {
+          return (
+            <ProfilePicture
+              key={item.id}
+              link={item.link}
+              title={item.title}
+              image={item.image}
+            />
+          )
+        })}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
+
+export default function Home({ seguidores }) {
   const usuario = 'GabrielBrandao13';
 
   const [comunidades, setComunidades] = useState([])
   const parsedComunidades = comunidades.slice(0, 6)
+
+  const parsedSeguidores = seguidores.slice(0, 6).map(seguidor => {
+    return {
+      id: seguidor.id,
+      link: `https://github.com/${seguidor.login}`,
+      title: seguidor.login,
+      image: `https://github.com/${seguidor.login}.png`
+    }
+  })
 
   const pessoasFavoritas = [
     'juunegreiros',
@@ -107,6 +138,7 @@ export default function Home() {
 
         </DivArea>
         <DivArea area="communities" className="communities">
+          <ProfileRelationsBox title="Seguidores" items={seguidores} parsedItems={parsedSeguidores} />
           <ProfileRelationsBoxWrapper>
 
             <ul>
@@ -148,6 +180,17 @@ export default function Home() {
         </DivArea>
 
       </MainGrid>
+
     </>
   )
+}
+
+export async function getServerSideProps() {
+  const seguidores = await fetch('https://api.github.com/users/peas/followers')
+  const parsedSeguidores = await seguidores.json()
+  return {
+    props: {
+      seguidores: parsedSeguidores
+    }
+  }
 }
