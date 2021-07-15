@@ -26,7 +26,8 @@ function ProfileSideBar({ githubUser }) {
   )
 }
 
-function ProfileRelationsBox({ title, items, parsedItems }) {
+function ProfileRelationsBox({ title, items }) {
+  const parsedItems = items.slice(0, 6)
   return (
     <ProfileRelationsBoxWrapper>
 
@@ -48,13 +49,20 @@ function ProfileRelationsBox({ title, items, parsedItems }) {
   )
 }
 
-export default function Home({ seguidores }) {
+export default function Home({ seguidores, communities }) {
   const usuario = 'GabrielBrandao13';
 
-  const [comunidades, setComunidades] = useState([])
-  const parsedComunidades = comunidades.slice(0, 6)
+  const [comunidades, setComunidades] = useState(communities)
 
-  const parsedSeguidores = seguidores.slice(0, 6).map(seguidor => {
+  const parsedComunidades = comunidades.slice(0, 6).map(comunidade => {
+    return {
+      id: comunidade.id,
+      title: comunidade.title,
+      image: comunidade.imageUrl
+    }
+  })
+
+  const parsedSeguidores = seguidores.map(seguidor => {
     return {
       id: seguidor.id,
       link: `https://github.com/${seguidor.login}`,
@@ -73,6 +81,7 @@ export default function Home({ seguidores }) {
   ]
 
   const parsedPessoasFavoritas = pessoasFavoritas.slice(0, 6)
+
 
   return (
     <>
@@ -96,18 +105,31 @@ export default function Home({ seguidores }) {
           <Box>
             <h2 className="subTitle">O que você deseja fazer?</h2>
 
-            <form onSubmit={e => {
+            <form onSubmit={async (e) => {
               e.preventDefault()
 
               const formData = new FormData(e.target)
 
               const comunidade = {
-                id: new Date().toISOString(),
                 title: formData.get('title'),
-                image: formData.get('image')
+                imageUrl: formData.get('image'),
+                creatorSlug: 'GabrielBrandao13'
               }
 
-              setComunidades([...comunidades, comunidade])
+              const res = await fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'aplication/json',
+                },
+                body: JSON.stringify(comunidade)
+              })
+              const dados = await res.json()
+
+              // console.log(dados.registro)
+
+              const newComunidade = dados.registro
+
+              setComunidades([...comunidades, newComunidade])
             }}>
               <div>
 
@@ -138,8 +160,10 @@ export default function Home({ seguidores }) {
 
         </DivArea>
         <DivArea area="communities" className="communities">
-          <ProfileRelationsBox title="Seguidores" items={seguidores} parsedItems={parsedSeguidores} />
+          <ProfileRelationsBox title="Seguidores" items={parsedSeguidores} />
           <ProfileRelationsBoxWrapper>
+
+            <h2>Comunidades ({comunidades.length})</h2>
 
             <ul>
 
@@ -147,7 +171,7 @@ export default function Home({ seguidores }) {
                 return (
                   <ProfilePicture
                     key={comunidade.id}
-                    link=""
+                    link={`/comunidades/${comunidade.id}`}
                     title={comunidade.title}
                     image={comunidade.image}
                   />
@@ -188,9 +212,34 @@ export default function Home({ seguidores }) {
 export async function getServerSideProps() {
   const seguidores = await fetch('https://api.github.com/users/peas/followers')
   const parsedSeguidores = await seguidores.json()
+
+  const comunidadesCompletas = await fetch('https://graphql.datocms.com/', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'e94b2d0460e898589bbb3738a972a6',
+      'Content-Type': 'aplication/json',
+      'Accept': 'aplication/json'
+    },
+    body: JSON.stringify({
+      "query": `query {
+      allComunnities {
+        title
+        id
+        imageUrl
+        creatorSlug
+      }
+    }` })
+  })
+
+  const parsedComunidadesCompletas = await comunidadesCompletas.json()
+  // console.log(parsedComunidadesCompletas)
+
+  const comunidades = parsedComunidadesCompletas.data.allComunnities
+
   return {
     props: {
-      seguidores: parsedSeguidores
+      seguidores: parsedSeguidores,
+      communities: comunidades
     }
   }
 }
