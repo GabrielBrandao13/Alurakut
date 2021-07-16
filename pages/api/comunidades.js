@@ -8,7 +8,7 @@ export default async function handleCommunities(req, res) {
 
         const client = new SiteClient(token)
 
-        const { title, imageUrl, creatorSlug } = JSON.parse(req.body)
+        const { title, imageUrl, creatorSlug } = req.body
 
         const record = await client.items.create({
             itemType: '967668',

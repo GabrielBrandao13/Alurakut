@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MainGrid, DivArea } from '../src/components/MainGrid';
 import { Box } from '../src/components/Box';
 import { AlurakutMenu, OrkutNostalgicIconSet, AlurakutProfileSidebarMenuDefault } from '../src/lib/AlurakutCommons';
 import { ProfileRelationsBoxWrapper, ProfilePicture } from '../src/components/ProfileRelations';
+
+import jwt from 'jsonwebtoken';
+
+import nookies from 'nookies'
 
 
 function ProfileSideBar({ githubUser }) {
@@ -49,9 +53,7 @@ function ProfileRelationsBox({ title, items }) {
   )
 }
 
-export default function Home({ seguidores, communities }) {
-  const usuario = 'GabrielBrandao13';
-
+export default function Home({ seguidores, communities, githubUser }) {
   const [comunidades, setComunidades] = useState(communities)
 
   const parsedComunidades = comunidades.slice(0, 6).map(comunidade => {
@@ -85,11 +87,11 @@ export default function Home({ seguidores, communities }) {
 
   return (
     <>
-      <AlurakutMenu githubUser={usuario} />
+      <AlurakutMenu githubUser={githubUser} />
       <MainGrid>
         <DivArea area="profile" className="profile">
 
-          <ProfileSideBar githubUser={usuario} />
+          <ProfileSideBar githubUser={githubUser} />
 
         </DivArea>
 
@@ -119,7 +121,7 @@ export default function Home({ seguidores, communities }) {
               const res = await fetch('/api/comunidades', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'aplication/json',
+                  'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(comunidade)
               })
@@ -209,16 +211,30 @@ export default function Home({ seguidores, communities }) {
   )
 }
 
-export async function getServerSideProps() {
-  const seguidores = await fetch('https://api.github.com/users/peas/followers')
-  const parsedSeguidores = await seguidores.json()
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context)
+  const token = cookies.USER_TOKEN
+
+  const { githubUser } = jwt.decode(token)
+
+  const resFollowers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
+  const seguidores = await resFollowers.json()
+
+  const resAuth = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+
+  const completeAuth = await resAuth.json()
+  const auth = completeAuth.isAuthenticated
 
   const comunidadesCompletas = await fetch('https://graphql.datocms.com/', {
     method: 'POST',
     headers: {
       'Authorization': 'e94b2d0460e898589bbb3738a972a6',
       'Content-Type': 'aplication/json',
-      'Accept': 'aplication/json'
+      'Accept': 'application/json'
     },
     body: JSON.stringify({
       "query": `query {
@@ -236,10 +252,20 @@ export async function getServerSideProps() {
 
   const comunidades = parsedComunidadesCompletas.data.allComunnities
 
+  if (!auth) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
   return {
     props: {
-      seguidores: parsedSeguidores,
-      communities: comunidades
+      seguidores,
+      communities: comunidades,
+      githubUser
     }
   }
 }
