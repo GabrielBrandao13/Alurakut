@@ -215,7 +215,6 @@ export async function getServerSideProps(context) {
   const cookies = nookies.get(context)
   const token = cookies.USER_TOKEN
 
-  const { githubUser } = jwt.decode(token)
 
   const resFollowers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
   const seguidores = await resFollowers.json()
@@ -238,13 +237,13 @@ export async function getServerSideProps(context) {
     },
     body: JSON.stringify({
       "query": `query {
-      allComunnities {
-        title
-        id
-        imageUrl
-        creatorSlug
-      }
-    }` })
+        allComunnities {
+          title
+          id
+          imageUrl
+          creatorSlug
+        }
+      }` })
   })
 
   const parsedComunidadesCompletas = await comunidadesCompletas.json()
@@ -261,6 +260,7 @@ export async function getServerSideProps(context) {
     }
   }
 
+  const { githubUser } = jwt.decode(token)
   return {
     props: {
       seguidores,

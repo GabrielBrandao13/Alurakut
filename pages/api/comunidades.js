@@ -4,7 +4,7 @@ export default async function handleCommunities(req, res) {
 
     if (req.method === 'POST') {
 
-        const token = '8932c3daea4a7ed3bcb6ef74a4f04b'
+        const token = process.env.FULL_ACESS_TOKEN
 
         const client = new SiteClient(token)
 
