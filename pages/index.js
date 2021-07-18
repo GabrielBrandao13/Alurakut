@@ -216,8 +216,6 @@ export async function getServerSideProps(context) {
   const token = cookies.USER_TOKEN
 
 
-  const resFollowers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
-  const seguidores = await resFollowers.json()
 
   const resAuth = await fetch('https://alurakut.vercel.app/api/auth', {
     headers: {
@@ -261,6 +259,10 @@ export async function getServerSideProps(context) {
   }
 
   const { githubUser } = jwt.decode(token)
+
+  const resFollowers = await fetch(`https://api.github.com/users/${githubUser}/followers`)
+  const seguidores = await resFollowers.json()
+
   return {
     props: {
       seguidores,
