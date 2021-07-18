@@ -53,7 +53,7 @@ export default function LoginScreen() {
                             value={githubUser}
                             onChange={e => setGithubUser(e.target.value)}
                         />
-                        {!githubUser.trim() && 'Preencha o campo'}
+                        <p>{!githubUser.trim() && 'Preencha o campo'}</p>
                         <button type="submit">
                             Login
                         </button>

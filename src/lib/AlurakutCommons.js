@@ -354,7 +354,7 @@ const AlurakutLoginScreen = css`
     }
     .logoArea {
       grid-area: logoArea;
-      background-color: var(--backgroundTertiary);
+      background-color:#25252e;
       border-radius: var(--commonRadius);
       padding: var(--gutter);
       text-align: center;
@@ -368,13 +368,14 @@ const AlurakutLoginScreen = css`
         min-height: 368px;
       }
       p {
-        font-size: 12px;
+        font-size: 12pt;
         line-height: 1.2;
+        color:white;
         &:not(:last-child) {
           margin-bottom: 12px;
         }
         strong {
-          color: var(--colorQuarternary);
+          color: #861cff;
         }
       }
       img {
@@ -389,6 +390,7 @@ const AlurakutLoginScreen = css`
       flex-direction: column;
       .box {
         display: flex;
+        background-color:#25252e;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -396,7 +398,6 @@ const AlurakutLoginScreen = css`
         padding: var(--gutter);
         padding-left: 50px;
         padding-right: 50px;
-        background-color: var(--backgroundSecondary);
         border-radius: var(--commonRadius);
         flex: 1;
         &:not(:last-child) {
@@ -409,7 +410,8 @@ const AlurakutLoginScreen = css`
           }
         }
         p {
-          font-size: 14px;
+          font-size: 14pt;
+          color:white;
         }
         a {
           text-decoration: none;
@@ -431,19 +433,21 @@ const AlurakutLoginScreen = css`
           border: 0;
           padding: 12px;
           border-radius: var(--commonRadius);
-          background-color: var(--colorPrimary);
+          background-color: #3624ff;
           color: var(--textSecondaryColor);
+          font-size: 13pt;
         }
       }
     }
     .footerArea {
       grid-area: footerArea;
-      background-color: var(--backgroundQuarternary);
+      background-color: #25252e;
       border-radius: var(--commonRadius);
       padding: 8px;
       p {
         font-size: 12px;
         text-align: center;
+        color: white;
         a {
           text-decoration: none;
           color: var(--colorPrimary);
